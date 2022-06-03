@@ -26,7 +26,7 @@ func main() {
 	log.Printf("Starting auth service on port %v", PORT)
 
 	pgClient := ConnectToDatabase()
-	if pgClient != nil {
+	if pgClient == nil {
 		log.Panic("Cannot connect to postgres")
 	}
 
