@@ -5,13 +5,13 @@ import (
 	_ "github.com/jackc/pgconn"
 	_ "github.com/jackc/pgx/v4"
 	_ "github.com/jackc/pgx/v4/stdlib"
+	"github.com/joho/godotenv"
 
 	"github.com/karankumarshreds/GoMicroservices/go-auth/data"
 	"log"
 	"net/http"
 	"os"
 	"time"
-	//_ "github.com/jackc/"
 )
 
 const PORT = ":8001"
@@ -22,6 +22,7 @@ type App struct {
 }
 
 func main() {
+	godotenv.Load()
 	log.Printf("Starting auth service on port %v", PORT)
 
 	pgClient := ConnectToDatabase()
@@ -63,7 +64,7 @@ func InitPostgres(dataSourceName string) (*sql.DB, error) {
 func ConnectToDatabase() *sql.DB {
 	connString := os.Getenv("DSN")
 	if connString == "" {
-		log.Panic("DATABASE CONNECTION STRING NOT FOUND")
+		log.Panic("Database connection string not found in the environment")
 	}
 	count := 0
 	// keep connecting to the db

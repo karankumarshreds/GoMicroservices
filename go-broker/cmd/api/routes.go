@@ -7,7 +7,6 @@ import (
 	"net/http"
 )
 
-
 func (a *App) routes() http.Handler {
 	mux := chi.NewRouter()
 
