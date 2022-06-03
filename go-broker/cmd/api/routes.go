@@ -7,6 +7,7 @@ import (
 	"net/http"
 )
 
+
 func (a *App) routes() http.Handler {
 	mux := chi.NewRouter()
 
@@ -16,7 +17,7 @@ func (a *App) routes() http.Handler {
 		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-TOKEN"},
 		ExposedHeaders:   []string{"Link"},
 		AllowCredentials: true,
-		MaxAge:           300,
+		MaxAge:           300, 
 	}))
 
 	// in future if we want to check if this application is still alive

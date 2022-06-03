@@ -2,11 +2,16 @@ package main
 
 import (
 	"database/sql"
+	_ "github.com/jackc/pgconn"
+	_ "github.com/jackc/pgx/v4"
+	_ "github.com/jackc/pgx/v4/stdlib"
+
 	"github.com/karankumarshreds/GoMicroservices/go-auth/data"
 	"log"
 	"net/http"
 	"os"
 	"time"
+	//_ "github.com/jackc/"
 )
 
 const PORT = ":8001"
@@ -19,9 +24,16 @@ type App struct {
 func main() {
 	log.Printf("Starting auth service on port %v", PORT)
 
-	// TODO connect to the database
+	pgClient := ConnectToDatabase()
+	if pgClient != nil {
+		log.Panic("Cannot connect to postgres")
+	}
 
-	app := App{}
+	app := App{
+		DB:     pgClient,
+		Models: data.New(pgClient),
+	}
+
 	server := http.Server{
 		Addr:    PORT,
 		Handler: app.routes(),
